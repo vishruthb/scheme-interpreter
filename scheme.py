@@ -415,7 +415,12 @@ def do_cond_form(expressions, env):
             test = scheme_eval(clause.first, env)
         if is_true_primitive(test):
             # BEGIN PROBLEM 13
-            "*** YOUR CODE HERE ***"
+            if clause.rest is nil:
+                return test
+            elif clause.rest.rest is nil:
+                return scheme_eval(clause.rest.first, env)
+            else:
+                return eval_all(clause.rest, env)
             # END PROBLEM 13
         expressions = expressions.rest
 
@@ -441,7 +446,26 @@ def make_let_frame(bindings, env):
         raise SchemeError('bad bindings list in let form')
     names = values = nil
     # BEGIN PROBLEM 14
-    "*** YOUR CODE HERE ***"
+    symbols = set()
+    while bindings is not nil:
+        binding = bindings.first
+        validate_form(binding, 2, 2)
+        symbol, expression = binding.first, binding.rest.first
+        
+        if not scheme_symbolp(symbol):
+            raise SchemeError('non-symbol: {0}'.format(symbol))
+        if symbol in symbols:
+            raise SchemeError('duplicate symbol: {0}'.format(symbol))
+        
+        symbols.add(symbol)
+        
+        value = scheme_eval(expression, env)
+        names = Pair(symbol, names)
+        values = Pair(value, values)
+        
+        bindings = bindings.rest
+    
+    validate_formals(names)
     # END PROBLEM 14
     return env.make_child_frame(names, values)
 
@@ -571,9 +595,8 @@ class MuProcedure(Procedure):
         self.formals = formals
         self.body = body
 
-    # BEGIN PROBLEM EC
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM EC
+    def make_call_frame(self, args, env):
+        return env.make_child_frame(self.formals, args)
 
     def __str__(self):
         return str(Pair('mu', Pair(self.formals, self.body)))
@@ -589,7 +612,8 @@ def do_mu_form(expressions, env):
     formals = expressions.first
     validate_formals(formals)
     # BEGIN PROBLEM EC
-    "*** YOUR CODE HERE ***"
+    body = expressions.rest
+    return MuProcedure(formals, body)
     # END PROBLEM EC
 
 
