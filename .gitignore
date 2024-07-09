@@ -3,10 +3,10 @@ __pycache__
 .ok_messages
 .ok_storage.db
 .DS_Store
-/abstract_turtle/
-/editor/
-/images/
-/tests/
+abstract_turtle/
+editor/
+images/
+tests/
 mytests.rst
 ok
 proj04.ok
