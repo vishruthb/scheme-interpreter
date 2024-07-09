@@ -3,7 +3,7 @@
 An interpreter for a subset of the Scheme programming language. It implements lexical analysis to tokenize input and syntactic analysis to parse tokens into internal representations using the `Pair` class. This interpreter also supports logical short-circuiting and local variable bindings, providing a robust platform for executing Scheme code.
 
 > [!NOTE]
-> Starter Code credits: CS 61A from UC Berkeley
+> Starter Code Creds: UC Berkeley's CS 61A
 
 ## Lexing
 The lexing process tokenizes input by reading it line by line and matching tokens based on priorities, ensuring accurate interpretation of instructions before labels.
